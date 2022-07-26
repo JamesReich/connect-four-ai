@@ -75,7 +75,7 @@ initializeGame();
 //If the piece below it isn't "filled" then the piece cannot be placed.
     [...gameCircle].forEach(circle => {
 
-        circle.addEventListener('click', (e) => {
+        circle.addEventListener('click', () => {
 
             let clickedCircle = parseInt(circle.dataset.num)
 
@@ -193,8 +193,6 @@ initializeGame();
                 yellowWins.remove();
 
             }
-
-
 
             initializeGame();
 
