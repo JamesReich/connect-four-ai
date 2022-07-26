@@ -69,10 +69,13 @@ function initializeGame(){
 }
 
 initializeGame();
+getPlayerChoice();
 
 
 //Callback that handles letting the player(s) place pieces onto the board
 //If the piece below it isn't "filled" then the piece cannot be placed.
+
+function getPlayerChoice(){
     [...gameCircle].forEach(circle => {
 
         circle.addEventListener('click', () => {
@@ -81,23 +84,26 @@ initializeGame();
 
             if(gameCircle[clickedCircle+7].classList.contains('filled') && !gameCircle[clickedCircle].classList.contains('filled')){
 
-                    circle.style.backgroundColor = '#ff3d3d';
-                    circle.classList.add('disabled');
-                    circle.classList.add('filled');
-                    circle.classList.add('red');
+                circle.style.backgroundColor = '#ff3d3d';
+                circle.classList.add('disabled');
+                circle.classList.add('filled');
+                circle.classList.add('red');
 
-                    gameBoard.classList.remove('shake');
-                    getComputerChoice();
-                    counter++;
-                    checkWin();
+                gameBoard.classList.remove('shake');
+                getComputerChoice();
+                counter++;
+                checkWin();
 
             }else{
 
-                    gameBoard.classList.add('shake');
+                gameBoard.classList.add('shake');
 
             }
         });
     });
+
+}
+
 
     function getComputerChoice(){
 
@@ -177,11 +183,7 @@ initializeGame();
         resetBtn.addEventListener('click', () => {
 
             [...gameCircle].forEach(circle => {
-                circle.classList.remove('disabled');
-                circle.classList.remove('filled');
-                circle.classList.remove('yellow');
-                circle.classList.remove('red');
-                circle.style.backgroundColor = '';
+                circle.remove();
             });
 
             if(redWins !== undefined){
@@ -195,6 +197,7 @@ initializeGame();
             }
 
             initializeGame();
+            getPlayerChoice();
 
             resetBtn.remove();
 
