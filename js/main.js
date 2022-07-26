@@ -6,6 +6,7 @@ let counter = 0;
 
 let redWins;
 let yellowWins;
+let tieGame;
 let resetBtn;
 
 let winningArray = [
@@ -117,6 +118,7 @@ function getPlayerChoice(){
             gameCircle[random].classList.add('disabled');
             gameCircle[random].classList.add('filled');
             gameCircle[random].classList.add('yellow');
+            counter++;
 
 
         }else{
@@ -157,6 +159,16 @@ function getPlayerChoice(){
                 disableBoard();
                 resetGame();
 
+            }else if(counter >= 42){
+
+                tieGame = document.createElement('div');
+                tieGame.classList.add('tieGame');
+                tieGame.innerHTML = 'Game Ended In A Draw';
+                gameBoard.appendChild(tieGame);
+
+                disableBoard();
+                resetGame();
+
             }
 
         }
@@ -185,6 +197,8 @@ function getPlayerChoice(){
             [...gameCircle].forEach(circle => {
                 circle.remove();
             });
+
+            counter = 0;
 
             if(redWins !== undefined){
 
