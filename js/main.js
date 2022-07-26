@@ -4,6 +4,10 @@ let emptyCircle;
 
 let counter = 0;
 
+let redWins;
+let yellowWins;
+let resetBtn;
+
 let winningArray = [
     [0, 1, 2, 3], [41, 40, 39, 38],[7, 8, 9, 10],
     [34, 33, 32, 31], [14, 15, 16, 17], [27, 26, 25, 24],
@@ -30,6 +34,15 @@ let winningArray = [
     [11, 18, 25, 32], [12, 19, 26, 33], [13, 20, 27, 34]
 ];
 
+// 0 - 6 is TOP ROW / SIXTH FROM BOTTOM
+// 7 - 14 is FIFTH FROM BOTTOM
+// 14 - 20 is FOURTH FROM BOTTOM
+// 21 - 27 is THIRD FROM BOTTOM
+// 28 - 34 is SECOND FROM BOTTOM
+// 35 - 41 is BOTTOM ROW
+
+function initializeGame(){
+
     // Draws the circles to the pre-existing board
     // Also creates a bottom 'fake' row that we have
     // pre-filled, so that we can start filling the board
@@ -53,14 +66,12 @@ let winningArray = [
 
     }
 
-// 0 - 6 is TOP ROW / SIXTH FROM BOTTOM
-// 7 - 14 is FIFTH FROM BOTTOM
-// 14 - 20 is FOURTH FROM BOTTOM
-// 21 - 27 is THIRD FROM BOTTOM
-// 28 - 34 is SECOND FROM BOTTOM
-// 35 - 41 is BOTTOM ROW
+}
 
-//Function that handles letting the player(s) place pieces onto the board
+initializeGame();
+
+
+//Callback that handles letting the player(s) place pieces onto the board
 //If the piece below it isn't "filled" then the piece cannot be placed.
     [...gameCircle].forEach(circle => {
 
@@ -101,6 +112,7 @@ let winningArray = [
             gameCircle[random].classList.add('filled');
             gameCircle[random].classList.add('yellow');
 
+
         }else{
 
             getComputerChoice();
@@ -121,11 +133,23 @@ let winningArray = [
 
             if(emptyGamePiece.every(circle => emptyGamePieces[circle].classList.contains('red'))){
 
-                console.log('Red wins!');
+                redWins = document.createElement('div');
+                redWins.classList.add('redWins');
+                redWins.innerHTML = 'Red Player Wins';
+                gameBoard.appendChild(redWins);
+
+                disableBoard();
+                resetGame();
 
             }else if(emptyGamePiece.every(circle => emptyGamePieces[circle].classList.contains('yellow'))){
 
-                console.log('Yellow wins!');
+                yellowWins = document.createElement('div');
+                yellowWins.classList.add('yellowWins');
+                yellowWins.innerHTML = 'Yellow Player Wins';
+                gameBoard.appendChild(yellowWins);
+
+                disableBoard();
+                resetGame();
 
             }
 
@@ -133,5 +157,51 @@ let winningArray = [
 
     }
 
+    function disableBoard(){
+
+        [...gameCircle].forEach(circle => {
+
+            circle.classList.add('disabled');
+
+        });
+
+    }
+
+    function resetGame(){
+
+        resetBtn = document.createElement('button');
+        resetBtn.classList.add('reset-btn');
+        resetBtn.innerHTML = 'Reset Game';
+        gameBoard.appendChild(resetBtn);
+
+        resetBtn.addEventListener('click', () => {
+
+            [...gameCircle].forEach(circle => {
+                circle.classList.remove('disabled');
+                circle.classList.remove('filled');
+                circle.classList.remove('yellow');
+                circle.classList.remove('red');
+                circle.style.backgroundColor = '';
+            });
+
+            if(redWins !== undefined){
+
+                redWins.remove();
+
+            }else{
+
+                yellowWins.remove();
+
+            }
+
+
+
+            initializeGame();
+
+            resetBtn.remove();
+
+        });
+
+    }
 
 
